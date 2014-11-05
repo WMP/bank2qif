@@ -103,26 +103,26 @@ class MBankImport(BankImporter):
         for row in unicode_csv_reader(self.inputreader, delimiter=';'):
             if not items and len(row) > 0 and (
                     row[0] == u"#Datum uskutečnění transakce" or
-                    row[0] == u"#Dátum uskutočnenia transakcie"
+                    row[0] == u"#Dátum uskutočnenia transakcie" or
+                    row[0] == u"#Data operacji"
                     ):
                 items = True
                 continue
             if items:
                 if len(row) == 0:
                     break
-                d, m, y = row[1].split('-')
+                y, m, d = row[1].split('-')
                 tdate = date(int(y), int(m), int(d))
-                tamount = float(normalize_num(row[9]))
+                tamount = float(normalize_num(row[6]))
 
                 trans_type = normalize_field(row[2])
                 trans_desc = normalize_field(row[3])
                 trans_target = normalize_field(row[4])
                 trans_acc = normalize_field(row[5])
-                tmessage = u"%s %s %s %s" % (trans_type,
+                tmessage = u"%s %s %s" % (trans_type,
                                               trans_desc,
-                                              trans_target,
-                                              trans_acc)
-                yield TransactionData(tdate, tamount, message=tmessage)
+                                              trans_target)
+                yield TransactionData(tdate, tamount, message=tmessage, destination=trans_acc)
 
 
 @register_importer("unicredit")

@@ -1,5 +1,7 @@
-= Goals =
+= Fork =
+This is fork from https://github.com/sochotnicky/bank2qif and include Polish mBank support.
 
+= Goals =
 This script can convert bank statements from several banks into QIF file
 format that can be processed by KMyMoney and some other financial
 software.
